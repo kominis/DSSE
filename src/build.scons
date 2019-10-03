@@ -1,0 +1,18 @@
+import os.path
+
+Import('*')
+
+def filter_cc(list):
+    return [x for x in list if os.path.splitext(str(x))[1] in [".cc"]]
+
+
+common_files = Glob('*.cpp')
+mara_files = Glob('mara/*.cpp')
+
+common_objs = env.Object(common_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+mara_objs = env.Object(mara_files, CPPPATH = ['.'] + env.get('CPPPATH', []))
+
+objs = {}
+objs["mara"] = mara_objs + common_objs
+
+Return('objs')
